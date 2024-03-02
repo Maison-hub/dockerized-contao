@@ -16,3 +16,11 @@ RUN apt-get update && apt-get install -y \
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Copy src file into the docker container
+COPY --chown=docker:docker ./src /var/www/html/
+RUN chown -R www-data: /var/www/html
+
+# chaneg the user and install contao 4
+USER www-data
+RUN php -d memory_limit=-1 /var/www/html
